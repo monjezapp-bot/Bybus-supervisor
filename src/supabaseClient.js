@@ -9,10 +9,13 @@ if (!supabaseUrl || !supabaseAnonKey) {
   );
 }
 
+// storageKey مميز عشان الجلسة دي متتلخبطش مع تطبيقي الإدارة والمشرفة
+// (الثلاثة بيتشاركوا نفس الـ Domain على GitHub Pages)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: false,
+    storageKey: "bybus-parent-auth",
   },
 });
