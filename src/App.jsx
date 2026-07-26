@@ -339,8 +339,17 @@ function FaceCheckScreen({ profile, bus, onDone }) {
         setResultNote("تم رفع الصورة بنجاح. لسه معندكيش صورة مرجعية معتمدة من الإدارة، فتم تسجيل هذه المحاولة لمراجعتها.");
         await raiseAlert("أول صورة تحقق للمشرفة — لا توجد صورة مرجعية معتمدة بعد، بانتظار اعتماد الإدارة. مسار الصورة: " + path);
       } else {
+        const { data: signedRef, error: signError } = await supabase.storage
+          .from("supervisor-faces")
+          .createSignedUrl(profile.face_reference_url, 300);
+        if (signError || !signedRef?.signedUrl) {
+          setResultNote("تم رفع الصورة، بس تعذر تحميل الصورة المرجعية للمقارنة. تم تنبيه الإدارة.");
+          await raiseAlert("تعذر تحميل الصورة المرجعية للمقارنة (مشكلة وصول للملف). مسار الصورة الجديدة: " + path);
+          setPhase("done");
+          return;
+        }
         const [refSig, newSig] = await Promise.all([
-          imageToGraySignature(profile.face_reference_url).catch(() => null),
+          imageToGraySignature(signedRef.signedUrl).catch(() => null),
           imageToGraySignature(capturedBlob),
         ]);
         const score = similarityScore(refSig, newSig);
