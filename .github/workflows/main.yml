@@ -24,11 +24,9 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install
+      - run: npm install --legacy-peer-deps
 
-      - run: npm install expo
-
-      - run: npx expo install @opentelemetry/api @expo/metro-runtime react-native-web react-dom
+      - run: npx expo install @opentelemetry/api @expo/metro-runtime react-native-web react-dom --legacy-peer-deps
 
       - run: npx expo export --platform web
         env:
