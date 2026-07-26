@@ -26,7 +26,7 @@ jobs:
 
       - run: npm install --legacy-peer-deps
 
-      - run: npm install expo --save-dev --legacy-peer-deps
+      - run: npm install expo@latest --legacy-peer-deps
 
       - run: npx expo export --platform web --clear
         env:
