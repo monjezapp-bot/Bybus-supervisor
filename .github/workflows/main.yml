@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: 20
 
+      - run: npm install expo --legacy-peer-deps
+
       - run: npm install --legacy-peer-deps
 
       - run: npx expo export --platform web
