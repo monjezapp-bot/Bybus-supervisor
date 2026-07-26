@@ -26,6 +26,8 @@ jobs:
 
       - run: npm install
 
+      - run: npm install expo
+
       - run: npx expo install @opentelemetry/api @expo/metro-runtime react-native-web react-dom
 
       - run: npx expo export --platform web
